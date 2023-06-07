@@ -19,7 +19,7 @@ namespace FileStatisticsFilter.WpfApp
         private List<SearchedFile> _files;
         private long _totalSize;
         private string _selectedDirectory;
-        private bool _subdirectories = false;
+        private bool _subdirectories;
         public MainWindow()
         {
             InitializeComponent();
@@ -82,7 +82,6 @@ namespace FileStatisticsFilter.WpfApp
             {
                 DirectoryComboBox.Items.Add(dir);
             }
-
             DirectoryComboBox.SelectedIndex = 0;
         }
 
@@ -188,14 +187,35 @@ namespace FileStatisticsFilter.WpfApp
         private void UpdateExtensions()
         {
             ExtensionListView.Items.Clear();
-            foreach (var file in FileListView.Items.IsEmpty
-                         ? _searchedFiles.Files
-                         : FileListView.Items.OfType<SearchedFile>())
+            IEnumerable<SearchedFile> files = FileListView.Items.IsEmpty ? _searchedFiles.Files
+                : FileListView.Items.OfType<SearchedFile>();
+            List<string> filteredExt = new List<string>();
+            foreach (var file in files)
             {
-                if (!ExtensionListView.Items.Contains(file.Extension))
+                if (!filteredExt.Contains(file.Extension))
                 {
-                    ExtensionListView.Items.Add(new { name = file.Extension, count = 1, size = 2});
+                    filteredExt.Add(file.Extension);
                 }
+            }
+            foreach (var ext in filteredExt)
+            {
+                int count = (from f in files where f.Extension.Equals(ext) select f).Count();
+                var sizesList = from f in files where f.Extension.Equals(ext) select f.Size;
+
+                string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+                double tmp = sizesList.Sum();
+                int sizeExt = 0;
+                string size;
+                while (tmp / 1000 > 1)
+                {
+                    tmp /= 1000;
+                    sizeExt++;
+                }
+
+                tmp = Math.Round(tmp, 2);
+                size = tmp + " " + sizes[sizeExt];
+
+                ExtensionListView.Items.Add(new { name = ext, count = count, size = size});
             }
         }
 
