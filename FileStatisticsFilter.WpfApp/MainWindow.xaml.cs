@@ -1,22 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.DirectoryServices;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FileStatisticFilter.CommonLibrary;
 using Microsoft.Win32;
 
@@ -32,6 +19,7 @@ namespace FileStatisticsFilter.WpfApp
         private List<SearchedFile> _files;
         private long _totalSize;
         private string _selectedDirectory;
+        private bool _subdirectories = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,16 +28,18 @@ namespace FileStatisticsFilter.WpfApp
             _files = new List<SearchedFile>();
             _totalSize = 0;
             DirectoryComboBox.SelectionChanged += DirectorySelectionChanged;
+            SubdirectoryCheckBox.Checked += SubdirectoriesChecked;
+            SubdirectoryCheckBox.Unchecked += SubdirectoriesUnChecked;
         }
 
-        public void LoadFile(object sender, RoutedEventArgs e)
+        private void LoadFile(object sender, RoutedEventArgs e)
         {
             var result = new OpenFileDialog
             {
                 Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*"
             };
             result.ShowDialog();
-            if (result.CheckPathExists)
+            if (result.FileName.Length > 0)
             {
                 _directories.Clear();
                 _files.Clear();
@@ -67,25 +57,22 @@ namespace FileStatisticsFilter.WpfApp
                     }
                 }
 
+                _selectedDirectory = _directories.ElementAt(0);
+
                 if (_directories.Count > 1)
                 {
                     SubdirectoryCheckBox.IsChecked = true;
+                    _subdirectories = true;
+                }
+                else
+                {
+                    SubdirectoryCheckBox.IsChecked = false;
+                    _subdirectories = false;
                 }
 
-                _selectedDirectory = _directories.ElementAt(0);
-
                 DirectoryComboBoxLogic();
-                ListsAndLabelsLogic();
+                ListsAndLabelsLogic(_subdirectories);
             }
-        }
-
-        public void DirectoryComboBoxUpdate(object sender, RoutedEventArgs e)
-        {
-            DirectoryComboBoxLogic();
-        }
-        public void ListsAndLabelsUpdate(object sender, RoutedEventArgs e)
-        {
-            ListsAndLabelsLogic();
         }
 
         private void DirectoryComboBoxLogic()
@@ -99,18 +86,29 @@ namespace FileStatisticsFilter.WpfApp
             DirectoryComboBox.SelectedIndex = 0;
         }
 
-        public void DirectorySelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DirectorySelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!DirectoryComboBox.Items.IsEmpty)
             {
                 _selectedDirectory = DirectoryComboBox.SelectedItem.ToString();
-                ListsAndLabelsLogic();
+                ListsAndLabelsLogic(_subdirectories);
             }
         }
 
-        private void ListsAndLabelsLogic()
+        public void SubdirectoriesChecked(object sender, EventArgs e)
         {
-            UpdateFiles();
+            _subdirectories = true;
+            ListsAndLabelsLogic(_subdirectories);
+        }
+        public void SubdirectoriesUnChecked(object sender, EventArgs e)
+        {
+            _subdirectories = false;
+            ListsAndLabelsLogic();
+        }
+
+        private void ListsAndLabelsLogic(bool subDir = false)
+        {
+            UpdateFiles(subDir);
             UpdateLabels();
             UpdateExtensions();
         }
@@ -201,10 +199,19 @@ namespace FileStatisticsFilter.WpfApp
             }
         }
 
-        private void UpdateFiles()
+        private void UpdateFiles(bool subDir = false)
         {
             FileListView.Items.Clear();
-            foreach (var file in (from file in _files where file.Directory.Contains(_selectedDirectory) select file))
+            IEnumerable<SearchedFile> files;
+            if (subDir)
+            {
+                files = from file in _files where file.Directory.Contains(_selectedDirectory) select file;
+            }
+            else
+            {
+                files = from file in _files where file.Directory.Equals(_selectedDirectory) select file;
+            }
+            foreach (var file in files)
             {
                 FileListView.Items.Add(file);
             }
