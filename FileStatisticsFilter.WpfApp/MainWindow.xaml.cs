@@ -116,7 +116,7 @@ namespace FileStatisticsFilter.WpfApp
         {
             int countFiles = 0;
             int countDirs = 0;
-            var countDir = new List<string>();
+            var countDirsList = new List<string>();
             int countReadOnly = 0;
             long size = 0;
             DateTime createdOldest = DateTime.MaxValue;
@@ -125,10 +125,10 @@ namespace FileStatisticsFilter.WpfApp
             DateTime modifiedNewest = DateTime.MinValue;
             foreach (var file in FileListView.Items.IsEmpty ? _searchedFiles.Files : FileListView.Items.OfType<SearchedFile>())
             {
-                if (Directory.Exists(file.Directory) && !countDir.Contains(file.Directory))
+                if (Directory.Exists(file.Directory) && !countDirsList.Contains(file.Directory))
                 {
                     countDirs++;
-                    countDir.Add(file.Directory);
+                    countDirsList.Add(file.Directory);
                 }
                 if (File.Exists(file.FullName))
                 {
