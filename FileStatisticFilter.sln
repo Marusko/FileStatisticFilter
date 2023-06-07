@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStatisticFilter.CommonL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStatisticFilter.SearchConsoleApp", "FileStatisticFilter.SearchConsoleApp\FileStatisticFilter.SearchConsoleApp.csproj", "{A87A2F39-B65E-4681-8735-AFEC623B270F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStatisticsFilter.WpfApp", "FileStatisticsFilter.WpfApp\FileStatisticsFilter.WpfApp.csproj", "{CE212978-305A-4FD0-BABF-5483F11CB4F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A87A2F39-B65E-4681-8735-AFEC623B270F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A87A2F39-B65E-4681-8735-AFEC623B270F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A87A2F39-B65E-4681-8735-AFEC623B270F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE212978-305A-4FD0-BABF-5483F11CB4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE212978-305A-4FD0-BABF-5483F11CB4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE212978-305A-4FD0-BABF-5483F11CB4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE212978-305A-4FD0-BABF-5483F11CB4F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

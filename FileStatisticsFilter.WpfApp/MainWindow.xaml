@@ -1,0 +1,103 @@
+﻿<Window x:Class="FileStatisticsFilter.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileStatisticsFilter.WpfApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="1" Header="Statistics" Margin="5" VerticalContentAlignment="Stretch">
+            <Grid VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Files:" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="0" Grid.Column="1" x:Name="FilesCountLabel" Content="0/0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Directories:" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="1" Grid.Column="1" x:Name="DirectoriesCountLabel" Content="0/0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Total size:" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="2" Grid.Column="1" x:Name="TotalSizeLabel" Content="0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Created time (oldest):" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="3" Grid.Column="1" x:Name="CreatedOldestLabel" Content="0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Created time (newest):" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="4" Grid.Column="1" x:Name="CreatedNewestLabel" Content="0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Modified time (oldest):" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="5" Grid.Column="1" x:Name="ModifiedOldestLabel" Content="0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="6" Grid.Column="0" Content="Modified time (newest):" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="6" Grid.Column="1" x:Name="ModifiedNewestLabel" Content="0" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="7" Grid.Column="0" Content="Readonly files:" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="7" Grid.Column="1" x:Name="ReadonlyCountLabel" Content="0" HorizontalAlignment="Left"/>
+                </Grid>
+                <ListView x:Name="ExtensionListView" Grid.Row="1" VerticalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Extension" Width="60"/>
+                            <GridViewColumn Header="Count" Width="45"/>
+                            <GridViewColumn Header="Total size" Width="63"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Column="0">
+            <Grid Margin="5,5,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Padding="10,5,10,5" HorizontalAlignment="Left" Content="Open..."/>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Directory:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="DirectoryComboBox" Grid.Column="1" Width="100" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="SubdirectoryCheckBox" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,-2,0"/>
+                        <Label Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Include subdirectories"/>
+                    </Grid>
+                </Grid>
+                <ListView x:Name="FileListView" Grid.Row="1" HorizontalContentAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="File name" Width="110"/>
+                            <GridViewColumn Header="Directory" Width="110"/>
+                            <GridViewColumn Header="Size" Width="50"/>
+                            <GridViewColumn Header="Created time" Width="110"/>
+                            <GridViewColumn Header="Modified time" Width="110"/>
+                            <GridViewColumn Header="Read only" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
