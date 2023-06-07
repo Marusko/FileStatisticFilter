@@ -2,7 +2,7 @@
   "profiles": {
     "FileStatisticFilter.SearchConsoleApp": {
       "commandName": "Project",
-      "commandLineArgs": "--input \"C:\\Users\\matus\\Desktop\" --output windows.csv --recursive"
+      "commandLineArgs": "--input \"C:\\Users\\matus\\Desktop\\Matúško\\RR\\Ostatné\" --output windows.csv --recursive"
     }
   }
 }

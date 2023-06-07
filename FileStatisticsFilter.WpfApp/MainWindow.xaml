@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FileStatisticsFilter.WpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="File Statistics" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -52,9 +51,9 @@
                 <ListView x:Name="ExtensionListView" Grid.Row="1" VerticalAlignment="Stretch">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Extension" Width="60"/>
-                            <GridViewColumn Header="Count" Width="45"/>
-                            <GridViewColumn Header="Total size" Width="63"/>
+                            <GridViewColumn Header="Extension" DisplayMemberBinding="{Binding name}" Width="60"/>
+                            <GridViewColumn Header="Count" DisplayMemberBinding="{Binding count}" Width="45"/>
+                            <GridViewColumn Header="Total size" DisplayMemberBinding="{Binding size}" Width="63"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -71,7 +70,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Padding="10,5,10,5" HorizontalAlignment="Left" Content="Open..."/>
+                    <Button Grid.Column="0" Padding="10,5,10,5" HorizontalAlignment="Left" Content="Open..." Click="LoadFile"/>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -80,7 +79,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="Directory:" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="DirectoryComboBox" Grid.Column="1" Width="100" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="DirectoryComboBox" Grid.Column="1"  MinWidth="100" MaxWidth="300" VerticalAlignment="Center"/>
                         <CheckBox x:Name="SubdirectoryCheckBox" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,-2,0"/>
                         <Label Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Include subdirectories"/>
                     </Grid>
@@ -88,12 +87,12 @@
                 <ListView x:Name="FileListView" Grid.Row="1" HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="File name" Width="110"/>
-                            <GridViewColumn Header="Directory" Width="110"/>
-                            <GridViewColumn Header="Size" Width="50"/>
-                            <GridViewColumn Header="Created time" Width="110"/>
-                            <GridViewColumn Header="Modified time" Width="110"/>
-                            <GridViewColumn Header="Read only" Width="100"/>
+                            <GridViewColumn Header="File name" DisplayMemberBinding="{Binding FileName}" Width="110"/>
+                            <GridViewColumn Header="Directory" DisplayMemberBinding="{Binding Directory}" Width="110"/>
+                            <GridViewColumn Header="Size" DisplayMemberBinding="{Binding SizeReadable}" Width="50"/>
+                            <GridViewColumn Header="Created time" DisplayMemberBinding="{Binding CreatedTime}" Width="110"/>
+                            <GridViewColumn Header="Modified time" DisplayMemberBinding="{Binding ModifiedTime}" Width="110"/>
+                            <GridViewColumn Header="Read only" DisplayMemberBinding="{Binding IsReadOnly}" Width="100"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

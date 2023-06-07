@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Drawing;
+using System.Text;
 
 namespace FileStatisticFilter.CommonLibrary
 {
@@ -9,7 +10,7 @@ namespace FileStatisticFilter.CommonLibrary
         public string Extension { get; set; }
         public string FileName => FileNameWithoutExtension + Extension;
         public string FileNameWithoutExtension { get; set; }
-        public string FullName => Directory + FileNameWithoutExtension + Extension;
+        public string FullName => Directory + "\\" + FileNameWithoutExtension + Extension;
         public bool IsReadOnly { get; set; }
         public DateTime ModifiedTime { get; set; }
         public long Size { get; set; }
@@ -19,15 +20,17 @@ namespace FileStatisticFilter.CommonLibrary
             get
             {
                 string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-                long tmp = Size;
-                int size = 0;
+                double tmp = Size;
+                int ext = 0;
                 string returnSize;
-                while (tmp > 0)
+                while (tmp / 1000 > 1)
                 {
-                    tmp = tmp / 1000;
-                    size++;
+                    tmp /= 1000;
+                    ext++;
                 }
-                returnSize = (tmp * 1000) + sizes[size];
+
+                tmp = Math.Round(tmp, 2);
+                returnSize = tmp + " " + sizes[ext];
                 return returnSize;
             }
         }
@@ -117,7 +120,7 @@ namespace FileStatisticFilter.CommonLibrary
                 var line = reader.ReadLine();
                 if (!header)
                 {
-                    tmpFiles.Add(new SearchedFile(line));
+                    tmpFiles.Add(new SearchedFile(line, ';'));
                 }
                 else
                 {
